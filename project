@@ -1,0 +1,30 @@
+import os
+import requests
+
+API_KEY = 'YOUR_API_KEY'
+API_URL = 'https://www.virustotal.com/vtapi/v2/file/scan'
+
+def scan_directory(directory_path):
+    for root, dirs, files in os.walk(directory_path):
+        for file in files:
+            file_path = os.path.join(root, file)
+            print(f"Scanning file: {file_path}")
+            scan_file(file_path)
+
+
+def scan_file(file_path):
+    try:
+        with open(file_path, 'rb') as file:
+            files = {'file': (os.path.basename(file_path), file)}
+            params = {'apikey': API_KEY}
+            response = requests.post(API_URL, files=files, params=params)
+            
+            if response.status_code == 200:
+                result = response.json()
+                print(f"Scan result for {file_path}: {result}")
+            else:
+                print(f"Error scanning {file_path}: {response.status_code} - {response.text}")
+    except Exception as e:
+        print(f"Error opening {file_path}: {str(e)}")
+
+scan_directory('C:/your_directory_path')
