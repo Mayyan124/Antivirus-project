@@ -1,8 +1,9 @@
+
 import os
 import requests
 
-API_KEY = 'YOUR_API_KEY'
-API_URL = 'https://www.virustotal.com/vtapi/v2/file/scan'
+API_KEY = 'f37fd1b871dec43b4956882ad715ea49ec2cbbf921a244a7b395666742511df1'  # מפתח ה-API שלך
+API_URL = 'https://www.virustotal.com/api/v3/files'
 
 def scan_directory(directory_path):
     for root, dirs, files in os.walk(directory_path):
@@ -11,13 +12,12 @@ def scan_directory(directory_path):
             print(f"Scanning file: {file_path}")
             scan_file(file_path)
 
-
 def scan_file(file_path):
     try:
         with open(file_path, 'rb') as file:
-            files = {'file': (os.path.basename(file_path), file)}
-            params = {'apikey': API_KEY}
-            response = requests.post(API_URL, files=files, params=params)
+            files = {'file': file}
+            headers = {'x-apikey': API_KEY}
+            response = requests.post(API_URL, files=files, headers=headers)
             
             if response.status_code == 200:
                 result = response.json()
@@ -27,4 +27,4 @@ def scan_file(file_path):
     except Exception as e:
         print(f"Error opening {file_path}: {str(e)}")
 
-scan_directory('C:/your_directory_path')
+scan_directory('C:/your_directory_path') 
