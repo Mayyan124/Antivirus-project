@@ -2,7 +2,7 @@
 import os
 import requests
 
-API_KEY = 'f37fd1b871dec43b4956882ad715ea49ec2cbbf921a244a7b395666742511df1'  # מפתח ה-API שלך
+API_KEY = 'f37fd1b871dec43b4956882ad715ea49ec2cbbf921a244a7b395666742511df1'  
 API_URL = 'https://www.virustotal.com/api/v3/files'
 
 def scan_directory(directory_path):
